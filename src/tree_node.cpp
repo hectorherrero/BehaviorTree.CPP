@@ -208,6 +208,11 @@ void TreeNode::setWakeUpInstance(std::shared_ptr<WakeUpSignal> instance)
   wake_up_ = instance;
 }
 
+bool TreeNode::requiresWakeUp() const
+{
+  return bool(wake_up_);
+}
+
 void TreeNode::modifyPortsRemapping(const PortsRemapping& new_remapping)
 {
   for (const auto& new_it : new_remapping)

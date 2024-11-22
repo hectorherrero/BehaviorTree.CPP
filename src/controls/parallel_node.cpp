@@ -68,6 +68,8 @@ NodeStatus ParallelNode::tick()
     throw LogicError("Number of children is less than threshold. Can never fail.");
   }
 
+  setStatus(NodeStatus::RUNNING);
+
   // Routing the tree according to the sequence node's logic:
   for (unsigned int i = 0; i < children_count; i++)
   {

@@ -2,6 +2,12 @@
 
 namespace BT
 {
+
+bool IsPrivateKey(StringView str)
+{
+  return str.size() >= 1 && str.data()[0] == '_';
+}
+
 void Blackboard::enableAutoRemapping(bool remapping)
 {
   autoremapping_ = remapping;
@@ -25,7 +31,7 @@ const Any *Blackboard::getAny(const std::string &key) const
       }
     }
 
-    else if(autoremapping_)
+    else if(autoremapping_ && !IsPrivateKey(key))
     {
       if(auto parent = parent_bb_.lock()) {
         return parent->getAny(key);
@@ -129,7 +135,7 @@ Blackboard::createEntryImpl(const std::string &key, const PortInfo& info)
       entry = parent->createEntryImpl(remapped_key, info);
     }
   }
-  else if(autoremapping_)
+  else if(autoremapping_ && !IsPrivateKey(key))
   {
     if (auto parent = parent_bb_.lock())
     {

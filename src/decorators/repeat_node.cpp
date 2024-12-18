@@ -47,6 +47,7 @@ NodeStatus RepeatNode::tick()
 
   while (repeat_count_ < num_cycles_ || num_cycles_ == -1)
   {
+    NodeStatus const prev_status = child_node_->status();
     NodeStatus child_state = child_node_->executeTick();
 
     switch (child_state)
@@ -54,6 +55,14 @@ NodeStatus RepeatNode::tick()
       case NodeStatus::SUCCESS: {
         repeat_count_++;
         resetChild();
+
+        // Return the execution flow if the child is async,
+        // to make this interruptable.
+        if(requiresWakeUp() && prev_status == NodeStatus::IDLE && (repeat_count_ < num_cycles_ || num_cycles_ == -1))
+        {
+          emitStateChanged();
+          return NodeStatus::RUNNING;
+        }
       }
       break;
 

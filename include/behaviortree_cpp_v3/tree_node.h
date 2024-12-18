@@ -196,6 +196,8 @@ protected:
 
   void setWakeUpInstance(std::shared_ptr<WakeUpSignal> instance);
 
+  bool requiresWakeUp() const;
+
   void modifyPortsRemapping(const PortsRemapping& new_remapping);
 
   void setStatus(NodeStatus new_status);

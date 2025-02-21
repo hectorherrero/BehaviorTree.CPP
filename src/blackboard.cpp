@@ -111,7 +111,10 @@ Blackboard::createEntryImpl(const std::string &key, const PortInfo& info)
   if(storage_it != storage_.end())
   {
     const auto& prev_info = storage_it->second->port_info;
-    if (prev_info.type() != info.type() &&
+
+    bool types_1 = (*prev_info.type() == *info.type());
+    bool types_2 = (prev_info.type() == info.type());
+    if (!(types_1 || types_2) &&
         prev_info.isStronglyTyped() &&
         info.isStronglyTyped())
     {

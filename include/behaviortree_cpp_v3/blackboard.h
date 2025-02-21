@@ -107,13 +107,7 @@ public:
       Any new_value(value);
       std::shared_ptr<Blackboard::Entry> entry;
       lock.unlock();
-      if(std::is_constructible<std::string, T>::value)
-      {
-        entry = createEntryImpl(key, PortInfo(PortDirection::INOUT));
-      }
-      else {
-        entry = createEntryImpl(key, PortInfo(PortDirection::INOUT, new_value.type(), {}));
-      }
+      entry = createEntryImpl(key, PortInfo(PortDirection::INOUT, new_value.type(), {}));
       entry->value = new_value;
       return;
     }

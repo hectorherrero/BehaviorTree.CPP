@@ -112,11 +112,8 @@ Blackboard::createEntryImpl(const std::string &key, const PortInfo& info)
   {
     const auto& prev_info = storage_it->second->port_info;
 
-    bool types_1 = (*prev_info.type() == *info.type());
-    bool types_2 = (prev_info.type() == info.type());
-    if (!(types_1 || types_2) &&
-        prev_info.isStronglyTyped() &&
-        info.isStronglyTyped())
+    bool types = (typeid(*prev_info.type()) == typeid(*info.type()));
+    if (!types && prev_info.isStronglyTyped() && info.isStronglyTyped())
     {
       throw LogicError("Blackboard: once declared, the type of a port "
                        "shall not change. Previously declared type [",
